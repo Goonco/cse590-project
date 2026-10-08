@@ -1,0 +1,9 @@
+% !TeX root = ../main.tex
+\section{Research Plan}
+
+We hypothesize that a schema-parametric type system can statically detect packet invariant violations in NetKAT
+policies without requiring protocol-specific validation logic. In particular, we aim to demonstrate that a common set of typing rules can support different user-defined packet schemas and detect violations introduced by packet modifications and policy composition.
+
+To investigate this hypothesis, we will first design a declarative packet schema language supporting nominal field types and constraints among packet fields. We will then develop typing rules for core NetKAT operators, including tests, modifications, union, and sequential composition, to track how packet refinements evolve across policy transformations. Based on these rules, we plan to implement a prototype type checker that translates well-typed policies into standard NetKAT through type erasure.
+
+We will evaluate the proposed approach along two main dimensions. First, we will examine schema extensibility by applying the same type checker to different user-defined packet schemas without modifying its typing rules. Second, we will evaluate static safety using policies that are valid under standard NetKAT semantics but violate user-defined packet invariants. We will examine whether Typed NetKAT rejects such policies while accepting valid policies that preserve their declared contracts. Finally, we will assess whether well-typed policies can be translated into standard NetKAT while preserving their execution semantics.

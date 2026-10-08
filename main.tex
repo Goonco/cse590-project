@@ -1,0 +1,45 @@
+% CSE 590 project template, Fall 2026: PACMPL format (acmart, acmsmall).
+% Build from this directory: latexmk -pdf -outdir=out main.tex
+% Citations go in references.bib; cite with \citet{key} or \citep{key}.
+
+\documentclass[acmsmall,screen,nonacm]{acmart}
+
+\citestyle{acmauthoryear}
+
+\begin{document}
+
+\title{Typed NetKAT: A Schema-Aware Type System for Network Policies}
+
+% One \author block per group member (up to three).
+\author{Matthew Song}
+\affiliation{%
+  \institution{University of Michigan}
+  \city{Ann Arbor}
+  \country{USA}}
+\email{songkh@umich.edu}
+
+\author{Theo Ma}
+\affiliation{%
+  \institution{University of Michigan}
+  \city{Ann Arbor}
+  \country{USA}}
+\email{them@umich.edu}
+
+\input{sections/abstract}
+
+\maketitle
+
+\input{sections/background}
+
+\input{sections/research-plan}
+
+\input{sections/deliverables}
+
+\input{sections/timeline}
+
+\input{sections/collaboration-and-ai-disclosure}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}

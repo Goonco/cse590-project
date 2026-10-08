@@ -1,0 +1,32 @@
+% !TeX root = ../main.tex
+\section{Background}
+
+% 1. Context
+
+Software-Defined Networking (SDN) made network control programmable by separating the control plane from the data plane and exposing interfaces such as OpenFlow~\cite{mckeown2008openflow}. However, early SDN interfaces remained close to switch-level forwarding mechanisms. These interfaces required programmers to manipulate low-level rules and reason explicitly about interactions among rules installed by different applications, motivating the development of higher-level network programming abstractions~\cite{foster2011frenetic}.
+
+Frenetic~\cite{foster2011frenetic} was an early step in this direction, providing composable abstractions for traffic queries and packet-forwarding policies while delegating low-level rule generation and management to its runtime system. This separated the expression of network behavior from the mechanisms used to realize it on switches. Building on this line of work, NetKAT~\cite{anderson2014netkat} provided an algebraic foundation for specifying and reasoning about packet-processing policies. Based on Kleene algebra with tests, NetKAT combined packet tests and modifications with union, sequential composition, and iteration. Its denotational semantics and sound and complete equational theory support reasoning about both local packet processing and network-wide behavior, including reachability and traffic isolation. NetKAT thus provides not only a language for expressing policies, but also a formal basis for reasoning about their composition and implementation.
+
+In the current Frenetic framework, NetKAT has been adopted as the core policy language~\cite{freneticsoftware}. Applications use frontend interfaces, including OCaml and Python APIs and a REST/JSON interface, to construct packet-processing policies represented in NetKAT. The Frenetic compiler then translates these policies into OpenFlow forwarding rules~\cite{smolka2015compiler}, while the controller runtime deploys the rules and manages communication with switches. This architecture allows different frontends to share the same compilation and runtime infrastructure, enabling programmers to focus on network behavior rather than low-level switch management.
+
+% 2. Problem
+
+However, despite these benefits, writing a correct network policy requires more than specifying forwarding decisions. Programmers must ensure that packet fields and policy components are used consistently with the protocol and application assumptions on which those decisions depend. 
+NetKAT is built on a simplified packet model that represents packets as records over a finite set of fields~\cite{anderson2014netkat}. This abstraction provides a compact foundation for expressing and reasoning about packet transformations, but it does not inherently capture protocol-dependent relationships among fields or application-specific packet invariants. Consequently, a policy may be well-defined under NetKAT's semantics while violating the packet-level assumptions on which its intended behavior depends.
+For example, a packet modification may violate schema-defined invariants even though the resulting policy remains well-defined under NetKAT's semantics.
+Although NetKAT provides formal verification techniques for detecting such violations~\cite{anderson2014netkat,foster2015coalgebraic}, doing so requires programmers to explicitly specify the relevant assumptions and desired correctness properties.
+
+These limitations are not fully addressed by Frenetic's higher-level policy interfaces. Frenetic provides frontend APIs for testing and modifying a predefined set of packet fields, whose definitions are embedded in the framework implementation~\cite{freneticsoftware}. While these APIs facilitate policy construction, they do not provide a general mechanism for expressing application-specific packet structures and relationships among packet fields.
+Moreover, the Frenetic compiler handles selected protocol prerequisites when generating OpenFlow match patterns to ensure that the resulting rules satisfy protocol-specific matching requirements~\cite{freneticsoftware}. However, this mechanism is limited to predefined protocol relationships and does not verify whether packet modifications and policy composition preserve application-specific packet invariants.
+
+% 3. Contribution
+
+To address these limitations, we propose Typed NetKAT, a schema-aware extension of NetKAT that integrates
+user-defined packet structures and constraints into the construction and static checking of network policies. Our approach makes two main contributions.
+
+First, we introduce a declarative packet abstraction that separates user-defined packet structures, nominal field types, and field dependencies from frontend-specific APIs. By parameterizing the type system over packet schemas, Typed NetKAT supports extensible packet abstractions without requiring protocol-specific typing rules.
+
+Second, we develop a compositional refinement type system that statically tracks how NetKAT operators establish, invalidate, and preserve schema-defined packet invariants. The type system checks the compatibility of policy input and output contracts, detecting violations introduced by packet modifications and policy composition.
+
+Typed NetKAT follows a type-erasure compilation approach, translating well-typed policies into standard NetKAT
+policies. This design allows the proposed type system to be integrated with existing NetKAT compilation infrastructure without requiring a new execution backend.

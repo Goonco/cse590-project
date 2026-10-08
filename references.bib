@@ -1,0 +1,117 @@
+% BibTeX database for the CSE 590 project.
+% Preserve these citation keys when editing metadata.
+% Web resources use n.d. because they do not state a publication year;
+% lastaccessed records the retrieval date for ACM-Reference-Format.
+
+% Source: https://dl.acm.org/doi/10.1145/1355734.1355746
+@article{mckeown2008openflow,
+  author  = {Nick McKeown and Tom Anderson and Hari Balakrishnan and
+             Guru Parulkar and Larry Peterson and Jennifer Rexford and
+             Scott Shenker and Jonathan Turner},
+  title   = {{OpenFlow}: Enabling Innovation in Campus Networks},
+  journal = {ACM SIGCOMM Computer Communication Review},
+  year    = {2008},
+  volume  = {38},
+  number  = {2},
+  pages   = {69--74},
+  doi     = {10.1145/1355734.1355746}
+}
+
+% Conference version, not the SIGPLAN Notices republication.
+% Source: https://collaborate.princeton.edu/en/publications/frenetic-a-network-programming-language-2/
+@inproceedings{foster2011frenetic,
+  author    = {Nate Foster and Rob Harrison and Michael J. Freedman and
+               Christopher Monsanto and Jennifer Rexford and Alec Story and
+               David Walker},
+  title     = {{Frenetic}: A Network Programming Language},
+  booktitle = {Proceedings of the 16th ACM SIGPLAN International Conference on Functional Programming},
+  series    = {ICFP '11},
+  year      = {2011},
+  pages     = {279--291},
+  publisher = {Association for Computing Machinery},
+  doi       = {10.1145/2034773.2034812}
+}
+
+% Conference version, not the SIGPLAN Notices republication.
+% Source: https://collaborate.princeton.edu/en/publications/netkat-semantic-foundations-for-networks/
+@inproceedings{anderson2014netkat,
+  author    = {Carolyn Jane Anderson and Nate Foster and Arjun Guha and
+               Jean-Baptiste Jeannin and Dexter Kozen and Cole Schlesinger and
+               David Walker},
+  title     = {{NetKAT}: Semantic Foundations for Networks},
+  booktitle = {Proceedings of the 41st ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+  series    = {POPL '14},
+  year      = {2014},
+  pages     = {113--126},
+  publisher = {Association for Computing Machinery},
+  doi       = {10.1145/2535838.2535862}
+}
+
+% Source: https://dl.acm.org/doi/10.1145/2784731.2784761
+@inproceedings{smolka2015compiler,
+  author    = {Steffen Smolka and Spiridon Eliopoulos and Nate Foster and
+               Arjun Guha},
+  title     = {A Fast Compiler for {NetKAT}},
+  booktitle = {Proceedings of the 20th ACM SIGPLAN International Conference on Functional Programming},
+  series    = {ICFP '15},
+  year      = {2015},
+  pages     = {328--341},
+  publisher = {Association for Computing Machinery},
+  doi       = {10.1145/2784731.2784761}
+}
+
+% Source: https://www.cs.cornell.edu/~jnfoster/papers/netkat-coalgebra.pdf
+% Author name follows the author's current paper and publication page.
+@inproceedings{foster2015coalgebraic,
+  author    = {Nate Foster and Dexter Kozen and Mae Milano and Alexandra Silva and
+               Laure Thompson},
+  title     = {A Coalgebraic Decision Procedure for {NetKAT}},
+  booktitle = {Proceedings of the 42nd Annual ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+  series    = {POPL '15},
+  year      = {2015},
+  pages     = {343--355},
+  publisher = {Association for Computing Machinery},
+  doi       = {10.1145/2676726.2677011}
+}
+
+% Specific implementation evidence:
+% README.md
+% src/lib/netkat/Syntax.ml
+% src/lib/netkat/Local_compiler.ml (fill_in_dependencies)
+% For a longer-term paper, pin this citation to the exact commit examined.
+@misc{freneticsoftware,
+  author       = {{Frenetic Developers}},
+  title        = {The {Frenetic} Programming Language and Runtime System},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/frenetic-lang/frenetic},
+  note         = {Source code and documentation. Accessed October 8, 2026}
+}
+
+% Optional related work.
+% Source: https://doi.org/10.4230/LIPIcs.ECOOP.2019.12
+@inproceedings{eichholz2019safep4,
+  author    = {Matthias Eichholz and Eric Campbell and Nate Foster and
+               Guido Salvaneschi and Mira Mezini},
+  title     = {How to Avoid Making a Billion-Dollar Mistake: Type-Safe Data Plane Programming with {SafeP4}},
+  booktitle = {33rd European Conference on Object-Oriented Programming (ECOOP 2019)},
+  series    = {Leibniz International Proceedings in Informatics (LIPIcs)},
+  volume    = {134},
+  year      = {2019},
+  pages     = {12:1--12:28},
+  publisher = {Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  doi       = {10.4230/LIPIcs.ECOOP.2019.12}
+}
+
+% Source: https://dl.acm.org/doi/10.1145/3498701
+@article{eichholz2022pi4,
+  author    = {Matthias Eichholz and Eric Hayden Campbell and Matthias Krebs and
+               Nate Foster and Mira Mezini},
+  title     = {Dependently-Typed Data Plane Programming},
+  journal   = {Proceedings of the ACM on Programming Languages},
+  volume    = {6},
+  number    = {POPL},
+  articleno = {40},
+  numpages  = {28},
+  year      = {2022},
+  doi       = {10.1145/3498701}
+}
