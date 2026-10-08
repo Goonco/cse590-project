@@ -3,5 +3,6 @@
 
 We plan to deliver a prototype Typed NetKAT compiler that translates well-typed policies into standard NetKAT, along with a schema-aware static analyzer that detects packet invariant violations arising from policy transformations and composition.
 
-We will also provide a collection of test cases and an evaluation report demonstrating schema extensibility,
-static error detection, and compilation compatibility.
+We will also provide formal typing rules and two correctness proofs for the supported NetKAT fragment: a type soundness proof establishing that well-typed policies satisfy their declared packet schema contracts, and a semantic preservation proof showing that type erasure preserves the behavior of well-typed policies under standard NetKAT semantics.
+
+Finally, we will provide a collection of test cases and an evaluation report demonstrating schema extensibility, static error detection, and compilation compatibility.
