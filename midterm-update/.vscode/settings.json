@@ -1,0 +1,5 @@
+{
+  "tinymist.rootPath": "${workspaceFolder}",
+  "tinymist.typstExtraArgs": ["main.typ"],
+  "tinymist.exportPdf": "onSave"
+}
