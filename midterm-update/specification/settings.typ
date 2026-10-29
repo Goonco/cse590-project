@@ -3,7 +3,7 @@
 #let title = "Project Midterm Update"
 #let names = ("Matthew Song", "Theo Ma")
 #let emails = ("songkh@gmail.com", "jane@gmail.com")
-#let tk = "Typed NetKat"
+#let tk = $bold("Typed NetKat")$
 
 #let h1(title) = heading(
   level: 1,
