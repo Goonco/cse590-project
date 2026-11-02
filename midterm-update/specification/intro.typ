@@ -2,26 +2,32 @@
 
 #h1[Introduction]
 
-#tk is an extension of NetKAT for describing packet structures and checking
-policy contracts. Packet types specify the fields of a packet, their bit widths,
-and constraints on their values. A packet type without additional constraints
-plays the role of a schema. More specific packet types are constructed using
-intersection (#raw("&")) and union (#raw("|")), so schemas and refined packets
-share a single declaration form.
+*#tk* extends a restricted fragment of NetKAT with schema types and explicit policy contracts. Schema types describe packet fields, their bit widths, and constraints on their values.
 
-The following example classifies packets into two tenants according to their
-input ports. Each tenant is associated with a different VLAN identifier.
+The language has the following restrictions:
+
++ Packet fields and their bit widths are declared through schema syntax.
++ Each program begins with exactly one base schema declaration,
+  which fixes the packet structure for the entire program.
+  Additional schema declarations may define aliases, refinements,
+  or unions of existing schemas, while preserving this structure.
++ Policies are defined through `let` bindings.
+  The final expression must reference a bound policy.
++ Every policy binding must explicitly specify its input and output
+  schema types.
+
+The following is a simple example of #tk. The program classifies packets into two tenants according to their input ports. Each tenant is associated with a different VLAN identifier.
 
 #block(width: 100%, inset: 10pt, stroke: 0.5pt + black)[
   ```text
-  packet Packet = {
+  schema Packet = {
       port   : Bits[16]
       tenant : Bits[2]
       vlan   : Bits[12]
-  };
-  packet TenantA = Packet & { tenant == 1 vlan == 100 };
-  packet TenantB = Packet & { tenant == 2 vlan == 200 };
-  packet Classified = TenantA | TenantB;
+  } in
+  schema TenantA = Packet & { tenant == 1 vlan == 100 } in
+  schema TenantB = Packet & { tenant == 2 vlan == 200 } in
+  schema Classified = TenantA | TenantB in
 
   let classify : Packet -> Classified =
       (port ~ 10; tenant := 1; vlan := 100)
@@ -32,15 +38,19 @@ input ports. Each tenant is associated with a different VLAN identifier.
   ```
 ]
 
-The policy assigns tenant 1 and VLAN 100 to packets arriving at port 10, and
-tenant 2 and VLAN 200 to packets arriving at port 20. Other packets are dropped.
-The type #raw("Classified") preserves the relationship between the tenant and
-VLAN fields: it permits the two declared combinations rather than arbitrary
-combinations of their field values.
+After type checking, the example translates to the following untyped NetKAT program.
 
-The contract #raw("Packet -> Classified") requires every output produced from
-an input of type #raw("Packet") to satisfy #raw("Classified"). It does not require
-an output for every input. Under this interpretation, the policy
-#raw("classify; vlan := 200") violates the same contract because it can produce
-an output with tenant 1 and VLAN 200. The type system is intended to detect such
-violations before compilation.
+#block(width: 100%, inset: 10pt, stroke: 0.5pt + black)[
+  ```text
+  let port   = &x[0..16] in
+  let tenant = &x[16..18] in
+  let vlan   = &x[18..30] in
+
+  let classify =
+      (port ~ 10; tenant := 1; vlan := 100)
+      +
+      (port ~ 20; tenant := 2; vlan := 200)
+  in
+  classify
+  ```
+]

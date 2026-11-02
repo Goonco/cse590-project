@@ -3,7 +3,9 @@
 #let title = "Project Midterm Update"
 #let names = ("Matthew Song", "Theo Ma")
 #let emails = ("songkh@gmail.com", "jane@gmail.com")
-#let tk = $bold("Typed NetKat")$
+#let tk = "Typed NetKat"
+
+#let todo() = text(fill: red)[TODO]
 
 #let h1(title) = heading(
   level: 1,
@@ -51,14 +53,14 @@
   show heading.where(level: 3): set text(size: 12pt)
   show heading.where(level: 4): set text(size: 11pt)
 
-  show heading.where(level: 1): set block(above: 2em)
-  show heading.where(level: 1): set block(below: 1em)
-  show heading.where(level: 2): set block(above: 2em)
-  show heading.where(level: 2): set block(below: 1em)
-  show heading.where(level: 3): set block(above: 2em)
-  show heading.where(level: 3): set block(below: 1em)
-  show heading.where(level: 4): set block(above: 2em)
-  show heading.where(level: 4): set block(below: 1em)
+  show heading.where(level: 1): set block(above: 2.5em)
+  show heading.where(level: 1): set block(below: 1.5em)
+  show heading.where(level: 2): set block(above: 2.5em)
+  show heading.where(level: 2): set block(below: 1.5em)
+  show heading.where(level: 3): set block(above: 2.5em)
+  show heading.where(level: 3): set block(below: 1.5em)
+  show heading.where(level: 4): set block(above: 2.5em)
+  show heading.where(level: 4): set block(below: 1.5em)
 
   align(center)[
     #text(size: 17pt, weight: "bold")[#title]

@@ -1,4 +1,4 @@
-#import "../specification/settings.typ": *
+#import "./settings.typ": *
 
 #h1[Concrete Syntax]
 
@@ -39,7 +39,7 @@
   #grid(
     columns: (auto, auto, 1fr),
     column-gutter: 0.8em,
-    row-gutter: 1em,
+    row-gutter: 0.8em,
     align: left + top,
     ..rules.pos().flatten(),
   )
@@ -48,23 +48,45 @@
 The concrete syntax of #tk is written in a variant of the extended Backus–Naur form (EBNF). The notation #nt("nt") denotes a nonterminal, and #t("t") denotes a terminal. We use #raw("?") for an optional element, and #raw("+") and #raw("*") for one or more and zero or more repetitions, respectively. We use #buttnot to exclude strings from a producible set, and the ellipsis $(dots.h)$ to omit obvious alternatives. The fragment specified here supports packet declarations, policy bindings, exact-match filters, modifications, union, and sequential composition.
 
 #grammar-table(
-  rule("expr", [#nt("policy")], [#nt("packet-decl") #t("in") #nt("expr")]),
+  rule("program", [#t("schema") #nt("id") #t("=") #t("{") #nt("field-decl")#raw("+") #t("}") #t("in") #nt("expr")]),
 
-  rule("packet-decl", [#t("packet") #nt("id") #t("=") #nt("packet-type")]),
+  rule("expr", [#nt("id")], [#t("schema") #nt("id") #t("=") #nt("schema") #t("in") #nt("expr")], [#t("let") #nt(
+      "id",
+    ) #t(":") #nt("schema") #t("->") #nt("schema") #t("=") #nt("policy") #t("in") #nt("expr")]),
+
+  // [#t("{") #nt("field-decl")#raw("+") #t("}")],
 
   rule(
-    "packet-type",
+    "schema",
     [#nt("id")],
-    [#t("{") #nt("field-decl")#raw("+") #t("}")],
-    [#nt("packet-type") #t("&") #t("{") #nt("field-binding")#raw("*") #t("}")],
-    [#nt("packet-type") #t("|") #nt("packet-type")],
+    [#t("(") #nt("schema") #t(")")],
+    [
+      #nt("schema") #t("&")
+      #t("{") #nt("field-binding")#raw("*") #t("}")
+    ],
+    [#nt("schema") #t("|") #nt("schema")],
   ),
 
   rule("field-decl", [#nt("id") #t(":") #t("Bits") #t("[") #nt("number") #t("]")]),
 
   rule("field-binding", [#nt("id") #t("==") #nt("field-val")]),
 
-  rule("field-val", [#nt("binary")], [#nt("hex")], [#nt("ipv4")]),
+  rule("field-val", [#nt("number")], [#nt("binary")], [#nt("hex")], [#nt("ipv4")]),
+
+  rule(
+    "policy",
+    [#t("0")],
+    [#t("1")],
+    [#nt("id")],
+    [#nt("id") #t("~") #nt("field-val")],
+    [#nt("id") #t(":=") #nt("field-val")],
+    [#t("dup")],
+    [#t("(") #nt("policy") #t(")")],
+    [#t("!") #nt("policy")],
+    [#nt("policy") #t("*")],
+    [#nt("policy") #t(";") #nt("policy")],
+    [#nt("policy") #t("+") #nt("policy")],
+  ),
 )
 
 #grammar-table(
@@ -90,5 +112,32 @@ The concrete syntax of #tk is written in a variant of the extended Backus–Naur
 
   rule("id", [#nt("id_start") #nt("id_cont")#raw("*") #buttnot #nt("keyword")]),
 
-  rule("keyword", []),
+  rule(
+    "keyword",
+    [#t("schema")],
+    [#t("let")],
+    [#t("Bits")],
+    [#t("in")],
+    [#t("dup")],
+  ),
 )
+
+#block(breakable: false)[
+  For policies, operator precedence and associativity are defined as follows. Higher precedence values indicate tighter binding. Parentheses override the default grouping.
+
+  #align(center)[
+    #table(
+      columns: 3,
+      align: center + horizon,
+      stroke: 0.5pt + black,
+      inset: (x: 12pt, y: 4pt),
+
+      table.header([Operator], [Associativity], [Precedence]),
+
+      [#raw("*") (postfix)], [left], [4],
+      [#raw("!") (prefix)], [right], [3],
+      [#raw(";")], [left], [2],
+      [#raw("+")], [left], [1],
+    )
+  ]
+]

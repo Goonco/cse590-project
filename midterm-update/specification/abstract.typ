@@ -1,5 +1,4 @@
-#import "../specification/settings.typ": *
-
+#import "./settings.typ": *
 
 #h1[Abstract Syntax]
 
@@ -16,38 +15,37 @@ The abstract syntax of #tk is defined as follows:
     row-gutter: 0.2em,
     align: (left, left, center, left, left),
 
-    [*Expressions*], $bb(E) ∋ e$, $colon.double.eq$, $dots.h$, [],
-    ..bar, $op("SchemaDecl")(x, tau, e)$, [],
-    ..bar, $op("PacketDecl")(x, tau, e)$, [],
+    [*Expressions*], $bb(E) ∋ e$, $colon.double.eq$,
+    $x$, tag(""),
+    ..bar, $text("schema") x = tau text("in") e$, tag(""),
+    ..bar, $text("let") x : tau = rho text("in") e$, tag(""),
 
     grid.cell(colspan: 5)[#v(0.3em)],
 
-    [*Field Type*], $beta$, $colon.double.eq$, $op("BitT")(n)$, [],
-    [*Types*],
-    $bb(T) ∋ tau$,
-    $colon.double.eq$,
-    $op("SchemaT")(lr(
-        [
-          (x_1, beta_1), thin dots.h, thin (x_k, beta_k)
-        ]
-      ))$,
-    [],
+    [*Field Types*], $bb(B) ∋ beta$, $colon.double.eq$,
+    $op("Bit")(n)$, tag(""),
 
-    ..bar,
-    $op("PacketT")(tau, lr(
-        [
-          (x_1, v_1), thin dots.h, thin (x_m, v_m)
-        ]
-      ))$,
-    [],
+    [*Record Types*], $r$, $in$, $bb(R) = bb(X) limits(harpoon.rt)^"fin" bb(B)$, tag(""),
 
-    ..bar,
-    $op("PolicyT")(tau_"in", tau_"out")$, [],
+    [*Schema Types*], $bb(S) ∋ sigma$, $colon.double.eq$,
+    $x$, tag(""),
+    ..bar, $r$, tag(""),
+    ..bar, $sigma and \{x_1 = v_1, dots.h, x_m = v_m\}$, tag(""),
+    ..bar, $sigma_1 or sigma_2$, tag(""),
+
+    [*Policy Types*], $bb(T) ∋ tau$, $colon.double.eq$,
+    $sigma_1 -> sigma_2$, tag(""),
 
     grid.cell(colspan: 5)[#v(0.3em)],
 
-    [*Identifiers*], [], [], $x in bb(X)$, tag("String"),
-    [*Number*], [], [], $n in bb(Z)_+$, tag("Number"),
-    [*Bit*], [], [], $v in lr({0, 1}^+)$, tag(""),
+    [*Identifiers*], $x$, $in$, $bb(X)$, tag(""),
+    [*Number*], $n$, $in$, $bb(Z)_+$, tag(""),
+    [*Bit*], $v$, $in$, $lr({0, 1}^+)$, tag(""),
+    [*Policies*], $bb(P) ∋ rho$, $colon.double.eq$, $0$, tag(""),
+    ..bar, $1$, tag(""),
+    ..bar, $x ~ v$, tag(""),
+    ..bar, $x := v$, tag(""),
+    ..bar, $rho_1 ; rho_2$, tag(""),
+    ..bar, $rho_1 + rho_2$, tag(""),
   )
 ]
