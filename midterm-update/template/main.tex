@@ -82,8 +82,8 @@ packet IPv4 {
 }
 
 let firewall: IPv4 = 
-  if data.dst_ip = 10.0.0.1 then
-    data.src_ip ~ 10.0.0.0/24
+  if dst_ip = 10.0.0.1 then
+    src_ip ~ 10.0.0.0/24
   else 1 in
 let inbound_policy: Ethernet =
   if ethtype = 0x0800 then data as IPv4 {firewall} else 1 in
